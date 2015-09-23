@@ -8,13 +8,16 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import rx.Observable;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Spencer Gibb
  */
 public class RestClientTests {
 
-	public void test() {
+	public void test() throws Exception {
+		// Synchronous examples ----------------------------
 		String resp1 = new RestClient()
 				.get("http://example.com")
 				.as(String.class)
@@ -34,6 +37,7 @@ public class RestClientTests {
 
 		response1.getStatusCode();
 
+		// Spring ListenableFuture example ----------------------------
 		ListenableFuture<String> future = new RestClient()
 				.get("http://example.com")
 				.header("myheader", "myvalue")
@@ -52,6 +56,16 @@ public class RestClientTests {
 			}
 		});
 
+		// Java CompletableFutureTarget example ----------------------------
+		CompletableFuture<String> completableFuture = new RestClient()
+				.get("http://example.com")
+				.header("myheader", "myvalue")
+				.as(new CompletableFutureTarget<String>())
+				.execute();
+
+		System.out.println(completableFuture.get(1, TimeUnit.SECONDS));
+
+		// RxJava Observable example ----------------------------
 		Observable<String> observable = new RestClient()
 				.get("http://example.com")
 				.as(new ObservableTarget<String>())
@@ -59,6 +73,7 @@ public class RestClientTests {
 
 		observable.map(s -> s);
 
+		// HystrixExecutable example ----------------------------
 		HystrixExecutable<String> executable = new RestClient()
 				.get("http://example.com")
 				.as(new HystrixTarget<String>())
