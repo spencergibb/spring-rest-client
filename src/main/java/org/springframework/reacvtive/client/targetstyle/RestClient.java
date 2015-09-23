@@ -15,6 +15,10 @@ public class RestClient {
 
 	private HttpMethod method;
 
+	public RestClient uriResolver(UriResolver uriResolver) {
+		return this;
+	}
+
 	public BodyBuilder method(HttpMethod method, String uri) {
 		return new DefaultBodyBuilder(method, uri);
 	}
@@ -59,6 +63,8 @@ public class RestClient {
 
 		B ifNoneMatch(String... ifNoneMatches);
 
+		B params(Object... parameters);
+
 		<T> Target<T> as(ParameterizedTypeReference<T> typeRef);
 
 		<T> Target<T> as(Class<T> clazz);
@@ -72,7 +78,7 @@ public class RestClient {
 
 		BodyBuilder contentType(MediaType contentType);
 
-		BodyBuilder body(T body);
+		BodyBuilder body(Object body);
 	}
 
 	private static class DefaultBodyBuilder<T> implements BodyBuilder<T> {
@@ -83,7 +89,9 @@ public class RestClient {
 
 		private final HttpHeaders headers = new HttpHeaders();
 
-		private T body;
+		private Object body;
+
+		private Object[] parameters;
 
 		public DefaultBodyBuilder(HttpMethod method, String uri) {
 			this.method = method;
@@ -135,9 +143,15 @@ public class RestClient {
 		}
 
 		@Override
-		public BodyBuilder body(T body) {
+		public BodyBuilder<T> body(Object body) {
 			this.body = body;
 			return this;
+		}
+
+		@Override
+		public BodyBuilder<T> params(Object... parameters) {
+			this.parameters = parameters;
+			return null;
 		}
 
 		@Override

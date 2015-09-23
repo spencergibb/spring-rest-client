@@ -1,6 +1,7 @@
 package org.springframework.reacvtive.client.targetstyle;
 
 import com.netflix.hystrix.HystrixExecutable;
+import lombok.Data;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -16,6 +17,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class RestClientTests {
 
+	public static final ParameterizedTypeReference<List<String>> STRING_LIST_TYPE = new ParameterizedTypeReference<List<String>>() { };
+
 	public void test() throws Exception {
 		// Synchronous examples ----------------------------
 		String resp1 = new RestClient()
@@ -25,17 +28,28 @@ public class RestClientTests {
 
 		List<String> strings = new RestClient()
 				.get("http://example.com")
-				.as(new ParameterizedTypeReference<List<String>>() {
-				})
+				.as(STRING_LIST_TYPE)
 				.execute();
 
+		// Ribbon examples ----------------------------
 		ResponseEntity<String> response1 = new RestClient()
-				.get("http://example.com")
+				.uriResolver(new RibbonUriResolver("user"))
+				.get("/users/{userid}")
+				.params(1)
 				.header("myheader", "myvalue")
 				.as(String.class)
 				.exchange();
 
 		response1.getStatusCode();
+
+		ResponseEntity response2 = new RestClient()
+				.uriResolver(new RibbonUriResolver("user"))
+				.post("/users")
+				.body(new User("1", "myuser", "myname"))
+				.as(Void.class)
+				.exchange();
+
+		response2.getStatusCode();
 
 		// Spring ListenableFuture example ----------------------------
 		ListenableFuture<String> future = new RestClient()
@@ -83,5 +97,10 @@ public class RestClientTests {
 
 	}
 
-
+	@Data
+	class User {
+		final String id;
+		final String username;
+		final String name;
+	}
 }
