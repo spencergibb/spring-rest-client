@@ -1,7 +1,7 @@
 Spring Rest Client is a sandbox for experimenting on a fluent/reactive web client.
 
 ## Building from Source
-Spring Reactive uses a [Maven][]-based build system. In the instructions
+Spring Rest Client uses a [Maven][]-based build system. In the instructions
 below, `./mvnw` is invoked from the root of the source tree and serves as
 a cross-platform, self-contained bootstrap mechanism for the build.
 
@@ -22,7 +22,7 @@ extracted from the JDK download.
 Feel free to send us your feedback on the [issue tracker][]; [Pull requests][] are welcome.
 
 ## License
-The Spring Reactive is released under version 2.0 of the [Apache License][].
+The Spring Rest Client is released under version 2.0 of the [Apache License][].
 
 
 [Maven]: http://maven.apache.org/
