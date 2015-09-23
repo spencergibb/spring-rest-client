@@ -1,4 +1,4 @@
-package org.springframework.reacvtive.web.client;
+package org.springframework.reacvtive.client.targetstyle;
 
 import org.springframework.http.ResponseEntity;
 
