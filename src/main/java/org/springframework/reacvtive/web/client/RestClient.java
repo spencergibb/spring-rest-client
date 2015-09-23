@@ -3,6 +3,7 @@ package org.springframework.reacvtive.web.client;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -10,7 +11,7 @@ import org.springframework.http.MediaType;
 /**
  * @author Spencer Gibb
  */
-public class RestClient<T> {
+public class RestClient {
 
 	private HttpMethod method;
 
@@ -58,7 +59,11 @@ public class RestClient<T> {
 
 		B ifNoneMatch(String... ifNoneMatches);
 
+		<T> Target<T> as(ParameterizedTypeReference<T> typeRef);
 
+		<T> Target<T> as(Class<T> clazz);
+
+		<T> Target<T> as(Target<T> target);
 	}
 
 	public interface BodyBuilder<T> extends HeadersBuilder<BodyBuilder<T>> {
@@ -133,6 +138,21 @@ public class RestClient<T> {
 		public BodyBuilder body(T body) {
 			this.body = body;
 			return this;
+		}
+
+		@Override
+		public <T> Target<T> as(ParameterizedTypeReference<T> typeRef) {
+			return null;
+		}
+
+		@Override
+		public <T> Target<T> as(Class<T> clazz) {
+			return null;
+		}
+
+		@Override
+		public <T> Target<T> as(Target<T> target) {
+			return null;
 		}
 	}
 
