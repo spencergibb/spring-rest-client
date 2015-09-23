@@ -45,7 +45,7 @@ public class RestClientTests {
 		ResponseEntity response2 = new RestClient()
 				.uriResolver(new RibbonUriResolver("user"))
 				.post("/users")
-				.body(new User("1", "myuser", "myname"))
+				.body(new User("myuser", "myname"))
 				.as(Void.class)
 				.exchange();
 
@@ -99,7 +99,6 @@ public class RestClientTests {
 
 	@Data
 	class User {
-		final String id;
 		final String username;
 		final String name;
 	}
