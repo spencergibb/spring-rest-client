@@ -30,6 +30,7 @@ public class MockMvcStyleTests {
 				post("http://example.com/users")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(new User("username", "name"))
+						.as(Void.class) //this vs. two perform methods in RestClient
 		).getResponse();
 
 		Observable<User> observable = new ObservableRestClient().perform(

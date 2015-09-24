@@ -5,11 +5,6 @@ package org.springframework.reacvtive.client.mockmvcstyle;
  */
 public class DefaultRestClient implements RestClient<ResultActions> {
 	@Override
-	public ResultActions perform(RequestBuilder requestBuilder) {
-		return null;
-	}
-
-	@Override
 	public <T> ResultActions<T> perform(RequestBuilder.TypedRequestBuilder<T> requestBuilder) {
 		return null;
 	}

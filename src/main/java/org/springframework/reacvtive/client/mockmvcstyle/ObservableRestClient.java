@@ -7,11 +7,6 @@ import rx.Observable;
  */
 public class ObservableRestClient implements RestClient<ObservableRestClient.ObservableResultActions> {
 	@Override
-	public ObservableResultActions perform(RequestBuilder requestBuilder) {
-		return null;
-	}
-
-	@Override
 	public <T> ObservableResultActions<T> perform(RequestBuilder.TypedRequestBuilder<T> requestBuilder) {
 		return null;
 	}
